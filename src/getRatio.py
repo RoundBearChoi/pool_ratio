@@ -26,6 +26,8 @@ def get_pool_ratio(pool_address: str, network: str = 'base'):
     print('connected..')
     print('')
 
+    print(f' --- getting data on {pool_address} --- ')
+
     try:
         attributes = json_data['data']['attributes']
         
