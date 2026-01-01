@@ -80,7 +80,7 @@ def get_pool_ratio(pool_address: str, network: str = 'base'):
         }
         
         # filename based on pool address
-        fileName = f"{pool_address}_pool_data.json"
+        fileName = f"{pool_address}_{base_token}_{quote_token}_data.json"
         scriptDir = os.path.dirname(os.path.abspath(__file__))
         filePath = os.path.join(scriptDir, fileName)
 
@@ -88,7 +88,7 @@ def get_pool_ratio(pool_address: str, network: str = 'base'):
             json.dump(data_to_save, f, indent=4)
         
         print('')
-        print(f'data successfully saved to {filePath}')
+        print(f'data saved to {filePath}')
 
 
     except KeyError as e:

@@ -1,0 +1,13 @@
+{
+    "pool_address": "0xc211e1f853a898bd1302385ccde55f33a8c4b3f3",
+    "network": "base",
+    "pool_name": "cbBTC / WETH",
+    "base_token": "cbBTC",
+    "quote_token": "WETH",
+    "tvl_usd": 9059959.6751,
+    "volume_24h_usd": 35222472.7068135,
+    "base_token_price_quote_token": 29.4263436937,
+    "quote_token_price_base_token": 0.03398315504,
+    "base_token_price_usd": 87522.4297356598,
+    "quote_token_price_usd": 2973.3
+}
