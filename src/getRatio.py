@@ -1,6 +1,8 @@
 # getRatio.py
 
 import requests
+import json
+import os
 
 
 def get_pool_ratio(pool_address: str, network: str = 'base'):
@@ -62,6 +64,33 @@ def get_pool_ratio(pool_address: str, network: str = 'base'):
         print(f'1 {base_token} ≈ ${base_usd:.2f}')
         print(f'1 {quote_token} ≈ ${quote_usd:.2f}')
         
+        # save data to json
+        data_to_save = {
+            "pool_address": pool_address,
+            "network": network,
+            "pool_name": pool_name,
+            "base_token": base_token,
+            "quote_token": quote_token,
+            "tvl_usd": tvl_usd,
+            "volume_24h_usd": volume_24h_usd,
+            "base_token_price_quote_token": base_in_quote,  # how many quote tokens per 1 base token
+            "quote_token_price_base_token": quote_in_base,  # how many base tokens per 1 quote token
+            "base_token_price_usd": base_usd,
+            "quote_token_price_usd": quote_usd
+        }
+        
+        # filename based on pool address
+        fileName = f"{pool_address}_pool_data.json"
+        scriptDir = os.path.dirname(os.path.abspath(__file__))
+        filePath = os.path.join(scriptDir, fileName)
+
+        with open(filePath, 'w') as f:
+            json.dump(data_to_save, f, indent=4)
+        
+        print('')
+        print(f'data successfully saved to {filePath}')
+
+
     except KeyError as e:
         print('unexpected API response structure. KeyError:', e)
         print('raw data:')
