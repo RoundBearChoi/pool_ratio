@@ -3,12 +3,12 @@
 import requests
 
 
-def get_pool_ratio(pool_address: str, network: str = "base"):
+def get_pool_ratio(pool_address: str, network: str = 'base'):
     pool_address = pool_address.lower()
-    url = f"https://api.geckoterminal.com/api/v2/networks/{network}/pools/{pool_address}"
+    url = f'https://api.geckoterminal.com/api/v2/networks/{network}/pools/{pool_address}'
     
     headers = {
-        "accept": "application/json"
+        'accept': 'application/json'
     }
 
     print('')
@@ -17,7 +17,7 @@ def get_pool_ratio(pool_address: str, network: str = "base"):
     response = requests.get(url, headers=headers)
     
     if response.status_code != 200:
-        print(f"Error fetching data: HTTP {response.status_code}")
+        print(f'Error fetching data: HTTP {response.status_code}')
         print(response.text)
         return
     
@@ -27,38 +27,38 @@ def get_pool_ratio(pool_address: str, network: str = "base"):
     print('')
 
     try:
-        attributes = json_data["data"]["attributes"]
+        attributes = json_data['data']['attributes']
         
         # Extract pool name (clean version without fee)
-        pool_name = attributes["pool_name"]
-        tokens = pool_name.split(" / ")
+        pool_name = attributes['pool_name']
+        tokens = pool_name.split(' / ')
         base_token = tokens[0].strip()
         quote_token = tokens[1].strip()
         
         # Prices (returned as strings, convert to float)
-        base_in_quote = float(attributes["base_token_price_quote_token"])
-        quote_in_base = float(attributes["quote_token_price_base_token"])
+        base_in_quote = float(attributes['base_token_price_quote_token'])
+        quote_in_base = float(attributes['quote_token_price_base_token'])
         
-        print(f"pool: {base_token}/{quote_token} on {network.upper()}")
-        print(f"inverse: 1 {quote_token} = {quote_in_base:.12f} {base_token}")
-        print(f"ratio ({base_token} : {quote_token}) = 1 : {base_in_quote:.12f}")
-        print(f"ratio ({quote_token} : {base_token}) = {quote_in_base:.12f} : 1")
+        print(f'pool: {base_token}/{quote_token} on {network.upper()}')
+        print(f'inverse: 1 {quote_token} = {quote_in_base:.12f} {base_token}')
+        print(f'ratio ({base_token} : {quote_token}) = 1 : {base_in_quote:.12f}')
+        print(f'ratio ({quote_token} : {base_token}) = {quote_in_base:.12f} : 1')
         
         # Bonus: USD prices if you want them
-        base_usd = float(attributes["base_token_price_usd"])
-        quote_usd = float(attributes["quote_token_price_usd"])
+        base_usd = float(attributes['base_token_price_usd'])
+        quote_usd = float(attributes['quote_token_price_usd'])
         print('')
         print(f'1 {base_token} ≈ ${base_usd:.2f}')
         print(f'1 {quote_token} ≈ ${quote_usd:.2f}')
         
     except KeyError as e:
-        print("unexpected API response structure. KeyError:", e)
-        print("raw data:")
+        print('unexpected API response structure. KeyError:', e)
+        print('raw data:')
         print(json_data)
     except Exception as e:
-        print(f"error: {e}")
+        print(f'error: {e}')
 
 
 if __name__ == '__main__':
-    pool_address = "0xC211e1f853A898Bd1302385CCdE55f33a8c4B3f3"
+    pool_address = '0xC211e1f853A898Bd1302385CCdE55f33a8c4B3f3'
     get_pool_ratio(pool_address)
