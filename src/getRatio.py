@@ -36,11 +36,20 @@ def get_pool_ratio(pool_address: str, network: str = 'base'):
         tokens = pool_name.split(' / ')
         base_token = tokens[0].strip()
         quote_token = tokens[1].strip()
+       
+        # get tvl and daily volume
+        tvl_usd = float(attributes['reserve_in_usd'])
+        volume_24h_usd = float(attributes['volume_usd']['h24'])
         
+        print('')
+        print(f'tvl ≈ ${tvl_usd:,.2f} USD')
+        print(f'24h trading volume ≈ ${volume_24h_usd:,.2f} USD')
+
         # prices (returned as strings, convert to float)
         base_in_quote = float(attributes['base_token_price_quote_token'])
         quote_in_base = float(attributes['quote_token_price_base_token'])
         
+        print('') 
         print(f'pool: {base_token}/{quote_token} on {network.upper()}')
         print(f'inverse: 1 {quote_token} = {quote_in_base:.12f} {base_token}')
         print(f'ratio ({base_token} : {quote_token}) = 1 : {base_in_quote:.12f}')
