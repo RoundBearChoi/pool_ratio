@@ -3,6 +3,7 @@
 import requests
 import json
 import os
+from datetime import date
 
 
 def get_pool_ratio(pool_address: str, network: str = 'base'):
@@ -32,7 +33,7 @@ def get_pool_ratio(pool_address: str, network: str = 'base'):
 
     try:
         attributes = json_data['data']['attributes']
-        
+
         # extract pool name (clean version without fee)
         pool_name = attributes['pool_name']
         tokens = pool_name.split(' / ')
@@ -63,20 +64,23 @@ def get_pool_ratio(pool_address: str, network: str = 'base'):
         print('')
         print(f'1 {base_token} ≈ ${base_usd:.2f}')
         print(f'1 {quote_token} ≈ ${quote_usd:.2f}')
+
+        current_date = date.today().isoformat()
         
         # save data to json
         data_to_save = {
-            "pool_address": pool_address,
-            "network": network,
-            "pool_name": pool_name,
-            "base_token": base_token,
-            "quote_token": quote_token,
-            "tvl_usd": tvl_usd,
-            "volume_24h_usd": volume_24h_usd,
-            "base_token_price_quote_token": base_in_quote,  # how many quote tokens per 1 base token
-            "quote_token_price_base_token": quote_in_base,  # how many base tokens per 1 quote token
-            "base_token_price_usd": base_usd,
-            "quote_token_price_usd": quote_usd
+            'date': current_date,
+            'pool_address': pool_address,
+            'network': network,
+            'pool_name': pool_name,
+            'base_token': base_token,
+            'quote_token': quote_token,
+            'tvl_usd': tvl_usd,
+            'volume_24h_usd': volume_24h_usd,
+            'base_token_price_quote_token': base_in_quote,
+            'quote_token_price_base_token': quote_in_base,
+            'base_token_price_usd': base_usd,
+            'quote_token_price_usd': quote_usd
         }
         
         # filename based on pool address
