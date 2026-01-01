@@ -80,7 +80,8 @@ def get_pool_ratio(pool_address: str, network: str = 'base'):
         }
         
         # filename based on pool address
-        fileName = f"{pool_address}_{base_token}_{quote_token}_data.json"
+        fileName = f'{pool_address}_{base_token}_{quote_token}_data.json'
+        fileName = fileName.lower()
         scriptDir = os.path.dirname(os.path.abspath(__file__))
         filePath = os.path.join(scriptDir, fileName)
 
