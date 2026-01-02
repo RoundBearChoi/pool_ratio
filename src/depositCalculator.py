@@ -33,14 +33,14 @@ def calculate_v3_deposit(
     if price_lower >= price_upper:
         raise ValueError("price_lower must be less than price_upper")
 
-    # Convert displayed prices (WETH per cbBTC) to Uniswap sqrt prices
+    # convert displayed prices (WETH per cbBTC) to Uniswap sqrt prices
     sqrt_price_lower = 1 / math.sqrt(price_upper)
     sqrt_price_upper = 1 / math.sqrt(price_lower)
     sqrt_price_current = 1 / math.sqrt(current_price)
 
     if sqrt_price_current <= sqrt_price_lower:
-        # Current price >= price_upper → position is "below" current price
-        # Provide only base_token (cbBTC)
+        # current price >= price_upper → position is "below" current price
+        # provide only base_token (cbBTC)
         liquidity = amount_base / (sqrt_price_upper - sqrt_price_lower)
         base_to_pool = amount_base
         quote_to_pool = 0.0
@@ -48,8 +48,8 @@ def calculate_v3_deposit(
         situation = "current price ≥ upper bound -> provide only cbBTC"
 
     elif sqrt_price_current >= sqrt_price_upper:
-        # Current price <= price_lower → position is "above" current price
-        # Provide only quote_token (WETH) → swap all cbBTC to WETH
+        # current price <= price_lower → position is "above" current price
+        # provide only quote_token (WETH) → swap all cbBTC to WETH
         quote_to_pool = amount_base * current_price
         liquidity = quote_to_pool / (1 / sqrt_price_lower - 1 / sqrt_price_upper)
         base_to_pool = 0.0
@@ -57,7 +57,7 @@ def calculate_v3_deposit(
         situation = "current price ≤ lower bound -> provide only WETH"
 
     else:
-        # Current price inside range → provide both tokens
+        # current price inside range → provide both tokens
         term_base = sqrt_price_current - sqrt_price_lower
         term_quote = (1 / sqrt_price_current - 1 / sqrt_price_upper) / current_price
         liquidity = amount_base / (term_base + term_quote)
@@ -68,21 +68,20 @@ def calculate_v3_deposit(
         situation = "current price inside range -> provide both tokens"
 
     return {
-        "liquidity": liquidity,
-        "cbBTC_to_pool": base_to_pool,
-        "WETH_to_pool": quote_to_pool,
-        "cbBTC_swapped_to_WETH": base_swapped,
-        "total_cbBTC_used": base_to_pool + base_swapped,
-        "situation": situation
+        'liquidity': liquidity,
+        'cbBTC_to_pool': base_to_pool,
+        'WETH_to_pool': quote_to_pool,
+        'cbBTC_swapped_to_WETH': base_swapped,
+        'total_cbBTC_used': base_to_pool + base_swapped,
+        'situation': situation
     }
 
 
 if __name__ == '__main__':
-    # Example using values similar to your JSON data
     result = calculate_v3_deposit(
         amount_base=1.0,                  # e.g., deposit 1 cbBTC
         price_lower=25.0,                 # range: 25–35 WETH per cbBTC
         price_upper=35.0,
-        current_price=29.428922053        # from your JSON
+        current_price=29.428922053 
     )
     print(json.dumps(result, indent=4))
