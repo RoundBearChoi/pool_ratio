@@ -10,15 +10,15 @@ def get_results(pool_address: str = '0xc211e1f853a898bd1302385ccde55f33a8c4b3f3'
     print(' --- getting results --- ')
     
     pool_json = get_json(pool_address)
-    assumptions_json = get_json('assumptions')
+    deposit_assumptions_json = get_json('deposit_assumptions')
 
     print('')
     print('getting pool data..')
     print(json.dumps(pool_json, indent=4))
 
     print('')
-    print('getting assumptions..')
-    print(json.dumps(assumptions_json, indent=4))
+    print('getting deposit assumptions..')
+    print(json.dumps(deposit_assumptions_json, indent=4))
 
 
 def get_json(target_str: str) -> Dict[str, Any]:
